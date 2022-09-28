@@ -1,14 +1,11 @@
-import { Navbar, Button, Link, Text } from "@nextui-org/react";
+import { Button, Image, Link, Navbar } from "@nextui-org/react";
 import { AcmeLogo } from "./AcmeLogo";
 
 const Header = () => {
   return (
-    <Navbar variant={'floating'}>
+    <Navbar variant={'static'}>
       <Navbar.Brand>
         <AcmeLogo />
-        <Text b color="inherit" hideIn="xs">
-          ACME
-        </Text>
       </Navbar.Brand>
       <Navbar.Content hideIn="xs">
         <Navbar.Link href="#">Features</Navbar.Link>
