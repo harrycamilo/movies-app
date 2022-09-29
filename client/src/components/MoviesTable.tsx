@@ -1,27 +1,33 @@
 import {
-  Container,
   Image,
-  Pagination,
-  Row,
   Table,
   Text
 } from "@nextui-org/react";
 import React from "react";
-import { data } from "../data";
 import { RatingBadge } from "./RatingBadge";
 
-const MoviesTable = ({ onPageChange }) => {
-  const columns = React.useMemo(() => [
-    { name: "", uid: "img", id: "img" },
-    { name: "TITLE", uid: "title", id: "title" },
-    { name: "RELEASE DATE", uid: "release_date", id: "release_date" },
-    { name: "RATING", uid: "vote_average", id: "vote_average" },
-    { name: "POPULARITY", uid: "popularity", id: "popularity" },
-  ], []);
+type Movies = {
+  page: number,
+  results: any[],
+  "total_pages": number,
+  "total_results": number,
+}
+
+const MoviesTable = ({ movies }: { movies: any }) => {
+  const columns = React.useMemo(
+    () => [
+      { name: "", uid: "img", id: "img" },
+      { name: "TITLE", uid: "title", id: "title" },
+      { name: "RELEASE DATE", uid: "release_date", id: "release_date" },
+      { name: "RATING", uid: "vote_average", id: "vote_average" },
+      { name: "POPULARITY", uid: "popularity", id: "popularity" },
+    ],
+    []
+  );
 
   const imageBaseUrl = "http://image.tmdb.org/t/p/w300";
 
-  const renderCell = (movies, columnKey) => {
+  const renderCell = (movies: any, columnKey: React.Key) => {
     const cellValue = movies[columnKey];
     switch (columnKey) {
       case "img":
@@ -47,9 +53,7 @@ const MoviesTable = ({ onPageChange }) => {
         );
 
       case "vote_average":
-        return (
-          <RatingBadge rating={cellValue} />
-        );
+        return <RatingBadge rating={cellValue} />;
 
       case "views":
         return (
@@ -64,16 +68,6 @@ const MoviesTable = ({ onPageChange }) => {
   };
 
   return (
-    <Container fluid>
-      <Row justify="center">
-        <Pagination
-          css={{ pb: 10 }}
-          shadow
-          color={"secondary"}
-          total={10}
-          onChange={onPageChange}
-        />
-      </Row>
     <Table
       bordered
       aria-label="Example table with custom cells"
@@ -84,27 +78,24 @@ const MoviesTable = ({ onPageChange }) => {
     >
       <Table.Header columns={columns}>
         {(column) => (
-          <Table.Column
-          key={column.uid}
-          hideHeader={false}
-          align={"start"}
-          >
+          <Table.Column key={column.uid} hideHeader={false} align={"start"}>
             {column.name}
           </Table.Column>
         )}
       </Table.Header>
-      <Table.Body items={data.results}>
+      <Table.Body items={movies}>
         {(item) => {
           //prepareRow(item)
-          return <Table.Row>
-            {(columnKey) => (
-              <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+          return (
+            <Table.Row>
+              {(columnKey) => (
+                <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
               )}
-          </Table.Row>
+            </Table.Row>
+          );
         }}
       </Table.Body>
     </Table>
-        </Container>
   );
 };
 
