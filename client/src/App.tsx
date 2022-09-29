@@ -1,4 +1,4 @@
-import { Container, NextUIProvider, Pagination, styled } from "@nextui-org/react";
+import { NextUIProvider, styled } from "@nextui-org/react";
 import { Suspense } from "react";
 import "./App.css";
 import Navbar from "./components/Header";
@@ -13,11 +13,19 @@ const Box = styled("div", {
 });
 
 const App = () => {
+  const handlePagination = (page: number) => {
+    console.log(page);
+  };
+
+  const handleSearch = (title: string) => {
+    console.log(title);
+  };
+
   return (
     <NextUIProvider theme={DarkTheme}>
-      <Navbar />
+      <Navbar onPressSearch={handleSearch}/>
       <Suspense fallback={<div>Loading...</div>}>
-        <MoviesTable />
+        <MoviesTable onPageChange={handlePagination}/>
       </Suspense>
     </NextUIProvider>
   );

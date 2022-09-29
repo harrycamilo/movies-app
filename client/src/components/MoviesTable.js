@@ -4,18 +4,20 @@ import {
   Pagination,
   Row,
   Table,
-  Text,
+  Text
 } from "@nextui-org/react";
+import React from "react";
 import { data } from "../data";
+import { RatingBadge } from "./RatingBadge";
 
-const MoviesTable = () => {
-  const columns = [
-    { name: "", uid: "img" },
-    { name: "TITLE", uid: "title" },
-    { name: "RELEASE DATE", uid: "release_date" },
-    { name: "RATING", uid: "vote_average" },
-    { name: "POPULARITY", uid: "popularity" },
-  ];
+const MoviesTable = ({ onPageChange }) => {
+  const columns = React.useMemo(() => [
+    { name: "", uid: "img", id: "img" },
+    { name: "TITLE", uid: "title", id: "title" },
+    { name: "RELEASE DATE", uid: "release_date", id: "release_date" },
+    { name: "RATING", uid: "vote_average", id: "vote_average" },
+    { name: "POPULARITY", uid: "popularity", id: "popularity" },
+  ], []);
 
   const imageBaseUrl = "http://image.tmdb.org/t/p/w300";
 
@@ -33,7 +35,7 @@ const MoviesTable = () => {
         );
       case "title":
         return (
-          <Text b size={13} css={{ tt: "capitalize" }}>
+          <Text b size={16} css={{ tt: "capitalize" }}>
             {cellValue}
           </Text>
         );
@@ -44,11 +46,9 @@ const MoviesTable = () => {
           </Text>
         );
 
-      case "rating":
+      case "vote_average":
         return (
-          <Text b size={13} css={{ tt: "capitalize" }}>
-            {cellValue}
-          </Text>
+          <RatingBadge rating={cellValue} />
         );
 
       case "views":
@@ -63,10 +63,6 @@ const MoviesTable = () => {
     }
   };
 
-  const handlePagination = (page) => {
-    console.log(page);
-  };
-
   return (
     <Container fluid>
       <Row justify="center">
@@ -75,36 +71,40 @@ const MoviesTable = () => {
           shadow
           color={"secondary"}
           total={10}
-          onChange={handlePagination}
+          onChange={onPageChange}
         />
       </Row>
-      <Table
-        bordered
-        aria-label="Example table with custom cells"
-        css={{
-          height: "auto",
-          minWidth: "100%",
-        }}
-        selectionMode="none"
-      >
-        <Table.Header columns={columns}>
-          {(column) => (
-            <Table.Column key={column.uid} hideHeader={false} align={"start"}>
-              {column.name}
-            </Table.Column>
-          )}
-        </Table.Header>
-        <Table.Body items={data.results}>
-          {(item) => (
-            <Table.Row>
-              {(columnKey) => (
-                <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+    <Table
+      bordered
+      aria-label="Example table with custom cells"
+      css={{
+        height: "auto",
+        minWidth: "100%",
+      }}
+    >
+      <Table.Header columns={columns}>
+        {(column) => (
+          <Table.Column
+          key={column.uid}
+          hideHeader={false}
+          align={"start"}
+          >
+            {column.name}
+          </Table.Column>
+        )}
+      </Table.Header>
+      <Table.Body items={data.results}>
+        {(item) => {
+          //prepareRow(item)
+          return <Table.Row>
+            {(columnKey) => (
+              <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
               )}
-            </Table.Row>
-          )}
-        </Table.Body>
-      </Table>
-    </Container>
+          </Table.Row>
+        }}
+      </Table.Body>
+    </Table>
+        </Container>
   );
 };
 
