@@ -7,9 +7,9 @@ const url = `https://api.themoviedb.org/3/movie/top_rated?api_key=23c92ad271307f
 
 router.get('/', async (req, res, next) => {
   try {
-    const res = await fetch(url, options);
-    const json = await res.json();
-    console.log(json);
+    const tmdbResponse = await fetch(url);
+    const json = await tmdbResponse.json();
+    res.json(json);
   } catch (err) {
     console.log(err);
   }
