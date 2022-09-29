@@ -1,1 +1,15 @@
-GET http://localhost:3001/movies?page=1
+#### Get top rated movies first page
+
+GET http://localhost:3001/movies
+
+#### Get top rated movies specific page
+
+GET http://localhost:3001/movies?page=3
+
+#### Get movies by title
+
+GET http://localhost:3001/movies?titleFilter=Lord
+
+#### Get movies by title specific page
+
+GET http://localhost:3001/movies?titleFilter=Lord&page=2
