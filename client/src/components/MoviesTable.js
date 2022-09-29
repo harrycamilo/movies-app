@@ -1,4 +1,11 @@
-import { Table, Image, Text } from "@nextui-org/react";
+import {
+  Container,
+  Image,
+  Pagination,
+  Row,
+  Table,
+  Text,
+} from "@nextui-org/react";
 import { data } from "../data";
 
 const MoviesTable = () => {
@@ -50,42 +57,54 @@ const MoviesTable = () => {
             {cellValue}
           </Text>
         );
-      
+
       default:
         return cellValue;
     }
   };
+
+  const handlePagination = (page) => {
+    console.log(page);
+  };
+
   return (
-    <Table
-      bordered
-      aria-label="Example table with custom cells"
-      css={{
-        height: "auto",
-        minWidth: "100%",
-      }}
-      selectionMode="none"
-    >
-      <Table.Header columns={columns}>
-        {(column) => (
-          <Table.Column
-            key={column.uid}
-            hideHeader={false}
-            align={"start"}
-          >
-            {column.name}
-          </Table.Column>
-        )}
-      </Table.Header>
-      <Table.Body items={data.results}>
-        {(item) => (
-          <Table.Row>
-            {(columnKey) => (
-              <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
-            )}
-          </Table.Row>
-        )}
-      </Table.Body>
-    </Table>
+    <Container fluid>
+      <Row justify="center">
+        <Pagination
+          css={{ pb: 10 }}
+          shadow
+          color={"secondary"}
+          total={10}
+          onChange={handlePagination}
+        />
+      </Row>
+      <Table
+        bordered
+        aria-label="Example table with custom cells"
+        css={{
+          height: "auto",
+          minWidth: "100%",
+        }}
+        selectionMode="none"
+      >
+        <Table.Header columns={columns}>
+          {(column) => (
+            <Table.Column key={column.uid} hideHeader={false} align={"start"}>
+              {column.name}
+            </Table.Column>
+          )}
+        </Table.Header>
+        <Table.Body items={data.results}>
+          {(item) => (
+            <Table.Row>
+              {(columnKey) => (
+                <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+              )}
+            </Table.Row>
+          )}
+        </Table.Body>
+      </Table>
+    </Container>
   );
 };
 

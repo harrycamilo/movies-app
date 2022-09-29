@@ -1,7 +1,6 @@
-import { NextUIProvider } from "@nextui-org/react";
+import { Container, NextUIProvider, Pagination, styled } from "@nextui-org/react";
+import { Suspense } from "react";
 import "./App.css";
-import { Suspense, lazy } from "react";
-import { styled } from "@nextui-org/react"
 import Navbar from "./components/Header";
 import MoviesTable from "./components/MoviesTable";
 import { DarkTheme } from "./themes";
