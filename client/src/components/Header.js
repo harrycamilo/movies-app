@@ -1,27 +1,33 @@
-import { Button, Image, Link, Navbar } from "@nextui-org/react";
-import { AcmeLogo } from "./AcmeLogo";
+import { Button, Image, Input, Link, Navbar, Text } from "@nextui-org/react";
+import { useState } from "react";
+import { Logo } from "./Logo";
 
-const Header = () => {
+const Header = ({ onPressSearch }) => {
+  const [titleFilter, setTitleFilter] = useState('');
+
+  const handleFilter = (e) => {
+    setTitleFilter(e.target.value);
+  }
+
   return (
     <Navbar variant={'static'}>
       <Navbar.Brand>
-        <AcmeLogo />
+        <Logo />
       </Navbar.Brand>
-      <Navbar.Content hideIn="xs">
-        <Navbar.Link href="#">Features</Navbar.Link>
-        <Navbar.Link isActive href="#">
-          Customers
-        </Navbar.Link>
-        <Navbar.Link href="#">Pricing</Navbar.Link>
-        <Navbar.Link href="#">Company</Navbar.Link>
-      </Navbar.Content>
       <Navbar.Content>
-        <Navbar.Link color="inherit" href="#">
-          Login
-        </Navbar.Link>
+        <Input 
+          aria-label="Search by movie title"
+          type="search" 
+          placeholder="Movie Title" 
+          status="primary" 
+          clearable
+          onChange={handleFilter}
+        />
         <Navbar.Item>
-          <Button auto flat as={Link} href="#">
-            Sign Up
+          <Button auto color={'secondary'}
+            onPress={() => onPressSearch(titleFilter)}
+          >
+            Search
           </Button>
         </Navbar.Item>
       </Navbar.Content>
